@@ -5,9 +5,10 @@ using System.Text;
 
 namespace StudentServiceExercice
 {
-	public class Student
+	public abstract class Student
 	{
-		public string EmailAddress { get; private set; }
+        protected const int ALLOWANCE = 10;
+        public string EmailAddress { get; private set; }
 		public Guid UniversityId { get; private set; }
 		public int MonthlyEbookAllowance { get; set; }
 		public int CurrentlyBorrowedEbooks { get; private set; }
@@ -16,6 +17,9 @@ namespace StudentServiceExercice
 		{
 			this.EmailAddress = emailAddress;
 			this.UniversityId = universityId;
-		}		
-	}
+        }
+
+        
+
+    }
 }

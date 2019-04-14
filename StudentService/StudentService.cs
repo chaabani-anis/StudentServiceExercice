@@ -7,8 +7,19 @@ using System.Threading.Tasks;
 namespace StudentServiceExercice
 {
 	public class StudentService
-	{
-		public bool Add(string emailAddress, Guid universityId)
+    {
+        private readonly IStudentRepository _studentRepository;
+        private readonly IUniversityRepository _universityRepository;
+        private readonly IStudentFactory _studentFactory;
+
+        public StudentService(IStudentRepository studentRepository, IUniversityRepository universityRepository, IStudentFactory studentFactory)
+        {
+            _studentRepository = studentRepository;
+            _universityRepository = universityRepository;
+            _studentFactory = studentFactory;
+        }
+
+        public bool Add(string emailAddress, Guid universityId)
 		{
 			Console.WriteLine(string.Format("Log: Start add student with email '{0}'", emailAddress));
 
@@ -17,36 +28,23 @@ namespace StudentServiceExercice
 				return false;
 			}
 
-			var studentRepository = new StudentRepository();
-
-			if (studentRepository.Exists(emailAddress))
+			if (_studentRepository.Exists(emailAddress))
 			{
 				return false;
 			}
 
-			var universityRepository = new UniversityRepository();
+			var university = _universityRepository.GetById(universityId);
 
-			var university = universityRepository.GetById(universityId);
-
-			var student = new Student(emailAddress, universityId);
-			
-			if (university.Package == Package.Standard)
-			{
-				student.MonthlyEbookAllowance = 10;
-			}
-			else if (university.Package == Package.Premium)
-			{
-				student.MonthlyEbookAllowance = 10 * 2;
-			}							
-			
-			studentRepository.Add(student);
+			Student student = null;
+            student = _studentFactory.CreateStudent(emailAddress, universityId, university.Package);
+            _studentRepository.Add(student);
 
 			Console.WriteLine(string.Format("Log: End add student with email '{0}'", emailAddress));
 
 			return true;
 		}
 
-		public IEnumerable<Student> GetStudentsByUniversity()
+        public IEnumerable<Student> GetStudentsByUniversity()
 		{
 			//...
 			throw new NotImplementedException();

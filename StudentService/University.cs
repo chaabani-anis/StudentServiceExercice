@@ -9,6 +9,6 @@ namespace StudentServiceExercice
 	{
 		public Guid Id { get; private set;}
 		public String Name { get; private set; }
-		public Package Package { get; private set;  }
+		public virtual Package Package { get; set;  }
 	}
 }

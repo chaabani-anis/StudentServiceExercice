@@ -8,6 +8,7 @@ namespace StudentServiceExercice
 	public enum Package
 	{
 		Standard = 1,
-		Premium = 2,		
+		Premium = 2,
+        Unlimited = 3,
 	}
 }

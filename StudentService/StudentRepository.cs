@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StudentServiceExercice
 {
-	public class StudentRepository
+	public class StudentRepository : IStudentRepository
 	{
 		public void Add(Student student)
 		{
